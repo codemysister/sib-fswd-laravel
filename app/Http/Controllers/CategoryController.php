@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->get();
-        $roles = Role::all();
-        return view('admin.user.index', compact('users', 'roles'));
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -27,8 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.user.create', compact('roles'));
+        return view('admin.category.create');
     }
 
     /**
@@ -39,14 +36,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([
-            'role_id' => $request->role_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password
+        $category = Category::create([
+            'name' => $request->name
         ]);
 
-        return redirect()->route('user.index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -66,10 +60,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Category $category)
     {
-        $roles = Role::all();
-        return view('admin.user.edit', compact('user', 'roles'));
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -79,16 +72,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Category $category)
     {
-        $user->update([
-            'role_id' => $request->role_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? $request->password : $user->password
+        $category->update([
+            'name' => $request->name
         ]);
 
-        return redirect()->route('user.index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -97,9 +87,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Category $category)
     {
-        $user->delete();
-        return redirect()->route('user.index');
+        $category->delete();
+        return redirect()->route('category.index');
     }
 }

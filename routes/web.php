@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,15 +19,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', LandingController::class);
-Route::get('/dashboard/produk', [DashboardController::class, 'produk']);
-Route::get('/dashboard/user', [DashboardController::class, 'user']);
 
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'create']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::get('/users/{id}/edit', [UserController::class, 'edit']);
-Route::put('/users/{id}/edit', [UserController::class, 'update']);
-Route::delete('/users/{id}/edit', [UserController::class, 'destroy']);
+Route::prefix('dashboard')->group(function () {
+    Route::resource('category', CategoryController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('slider', SliderController::class);
+    Route::resource('program', ProgramController::class);
+    Route::resource('user', UserController::class);
+});
+
 

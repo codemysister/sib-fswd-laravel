@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function produk()
+    public function program()
     {
         $produks = [
             [
@@ -70,7 +70,7 @@ class DashboardController extends Controller
                 'category' => 'research-3'
             ],
         ];
-        return view('admin.produk', compact('produks'));
+        // return view('admin.produk', compact('produks'));
     }
 
     public function user(){
@@ -92,6 +92,6 @@ class DashboardController extends Controller
                 'role' => 'Staff'
             ]
         ];
-        return view('admin.user', compact('users'));
+        // return view('admin.user', compact('users'));
     }
 }

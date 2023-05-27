@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->get();
         $roles = Role::all();
-        return view('admin.user.index', compact('users', 'roles'));
+        return view('admin.role.index', compact('roles'));
     }
 
     /**
@@ -27,8 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.user.create', compact('roles'));
+        return view('admin.role.create');
     }
 
     /**
@@ -39,14 +36,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([
-            'role_id' => $request->role_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password
+        $role = Role::create([
+            'name' => $request->name
         ]);
 
-        return redirect()->route('user.index');
+        return redirect()->route('role.index');
     }
 
     /**
@@ -66,10 +60,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Role $role)
     {
-        $roles = Role::all();
-        return view('admin.user.edit', compact('user', 'roles'));
+        return view('admin.role.edit', compact('role'));
     }
 
     /**
@@ -79,16 +72,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Role $role)
     {
-        $user->update([
-            'role_id' => $request->role_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? $request->password : $user->password
+        $role->update([
+            'name' => $request->name
         ]);
 
-        return redirect()->route('user.index');
+        return redirect()->route('role.index');
     }
 
     /**
@@ -97,9 +87,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Role $role)
     {
-        $user->delete();
-        return redirect()->route('user.index');
+        $role->delete();
+        return redirect()->route('role.index');
     }
 }
