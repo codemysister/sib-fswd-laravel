@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function getRoleName()
+    {
+        return $this->role()->first()->name;
+    }
 }
