@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -39,6 +40,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'password' => 'required'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter',
+            'email' => '* Input :attribute harus bertype email.'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
         $user = User::create([
             'role_id' => $request->role_id,
             'name' => $request->name,
@@ -81,6 +100,22 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+            'name' => 'required|min:3',
+            'email' => 'required|email'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter',
+            'email' => '* Input :attribute harus bertype email.'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $user->update([
             'role_id' => $request->role_id,
             'name' => $request->name,

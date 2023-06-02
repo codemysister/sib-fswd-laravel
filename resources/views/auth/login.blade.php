@@ -5,6 +5,18 @@
       <h1 class="text-3xl text-left font-bold">Login</h1>
     </div>
 
+    @error('email')
+        <div class="text-red-400 font-semibold px-6">
+            {{ $errors->first('email') }}
+        </div>
+    @enderror
+
+    @error('password')
+        <div class="text-red-400 font-semibold px-6">
+            {{ $errors->first('password') }}
+        </div>
+    @enderror
+
     <div class="flex-auto p-6">
       <form role="form text-left" action="{{url('/login')}}" method="POST">
         @csrf

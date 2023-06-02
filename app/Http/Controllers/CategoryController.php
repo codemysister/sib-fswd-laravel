@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -39,9 +40,23 @@ class CategoryController extends Controller
     */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $category = Category::create([
             'name' => $request->name
         ]);
+
 
         return redirect()->route('category.index');
     }
@@ -77,6 +92,20 @@ class CategoryController extends Controller
     */
     public function update(Request $request, Category $category)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
         $category->update([
             'name' => $request->name
         ]);

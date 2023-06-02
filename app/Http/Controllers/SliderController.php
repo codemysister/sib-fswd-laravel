@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class SliderController extends Controller
 {
@@ -37,6 +38,22 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'caption' => 'required|min:10',
+            'img' => 'mimes:png,jpg',
+            'status' => 'required'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 10 karakter',
+            'mimes' => '* Input :attribute harus bertipe .png atau .jpg'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $path = $request->img->store('sliders', 'public');
         $slider = Slider::create([
             'caption' => $request->caption,
@@ -78,6 +95,23 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
+        $validator = Validator::make($request->all(), [
+            'caption' => 'required|min:10',
+            'img' => 'mimes:jpeg,jpg,png',
+            'status' => 'required'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 10 karakter',
+            'mimes' => '* Input :attribute harus bertipe .png atau .jpg'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
         if($request->hasFile('img')){
             Storage::delete($slider->img);
             $path = $request->img->store('sliders', 'public');

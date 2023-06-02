@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -15,12 +16,22 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ], [
+            'required' => '* Input :attribute harus diisi.'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
             $user = Auth::user();
 
@@ -44,22 +55,34 @@ class AuthController extends Controller
 
         public function register(Request $request)
         {
-            $credentials = $request->validate([
-                'name' => ['required'],
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-                'role' => ['required']
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|min:3',
+                'role' => 'required'
+            ], [
+                'required' => '* Input :attribute harus diisi.',
+                'min' => '* Input :attribute minimal 3 karakter'
             ]);
 
-            if($credentials['role'] == 'user'){
-                $credentials['role_id'] = 3;
-            }else if($credentials['role'] == 'staff'){
-                $credentials['role_id'] = 2;
+            if ($validator->fails()) {
+                return back()
+                            ->withErrors($validator)
+                            ->withInput();
             }
 
-            $credentials['password'] = bcrypt($credentials['password']);
+            $validated = $validator->validated();
 
-            $user = User::create($credentials);
+            if($validated['role'] == 'user'){
+                $validated['role_id'] = 3;
+            }else if($validated['role'] == 'staff'){
+                $validated['role_id'] = 2;
+            }
+
+            $validated['password'] = bcrypt($validated['password']);
+
+            $user = User::create($validated);
 
             if($user->getRoleName() == 'admin' || $user->getRoleName() == 'staff'){
                 return redirect()->intended('/dashboard/slider');

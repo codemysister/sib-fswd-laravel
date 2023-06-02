@@ -7,6 +7,25 @@
 
     <div class="max-w-xl mx-auto mt-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h1 class="font-bold text-2xl mb-6">Tambah Slider</h1>
+
+        @error('caption')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('caption') }}
+        </div>
+        @enderror
+
+        @error('img')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('img') }}
+        </div>
+        @enderror
+
+        @error('status')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('status') }}
+        </div>
+        @enderror
+
         <form action="{{route('slider.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
@@ -23,7 +42,7 @@
 
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                 <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Pilih status</option>
+                    <option selected value="">Pilih status</option>
                     <option value="0">nonaktif</option>
                     <option value="1">aktif</option>
                 </select>

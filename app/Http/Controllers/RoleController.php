@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
@@ -36,6 +37,19 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $role = Role::create([
             'name' => $request->name
         ]);
@@ -74,6 +88,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 3 karakter'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $role->update([
             'name' => $request->name
         ]);

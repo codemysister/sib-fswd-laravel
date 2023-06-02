@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProgramController extends Controller
 {
@@ -39,6 +40,23 @@ class ProgramController extends Controller
     */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+            'title' => 'required|min:10',
+            'img' => 'mimes:jpeg,jpg,png',
+            'caption' => 'required|min:10'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 10 karakter',
+            'mimes' => '* Input :attribute harus bertipe .png atau .jpg'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $path = $request->img->store('programs', 'public');
         $program = Program::create([
             'category_id' => $request->category_id,
@@ -82,6 +100,23 @@ class ProgramController extends Controller
     */
     public function update(Request $request, Program $program)
     {
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+            'title' => 'required|min:10',
+            'img' => 'mimes:jpeg,jpg,png',
+            'caption' => 'required|min:10'
+        ], [
+            'required' => '* Input :attribute harus diisi.',
+            'min' => '* Input :attribute minimal 10 karakter',
+            'mimes' => '* Input :attribute harus bertipe .png atau .jpg'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         if($request->hasFile('img')){
             Storage::delete($program->img);
             $path = $request->img->store('programs', 'public');

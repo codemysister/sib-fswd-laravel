@@ -42,35 +42,35 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
     // Slider
     Route::get('/slider', [SliderController::class, 'index'])->name('slider.index');
-    Route::get('/slider/create', [SliderController::class, 'create'])->middleware('slider:admin')->name('slider.create');
-    Route::post('/slider', [SliderController::class, 'store'])->middleware('slider:admin')->name('slider.store');
-    Route::get('/slider/{slider}', [SliderController::class, 'edit'])->middleware('slider:admin')->name('slider.edit');
-    Route::patch('/slider/{slider}', [SliderController::class, 'update'])->middleware('slider:admin')->name('slider.update');
-    Route::delete('/slider/{slider}', [SliderController::class, 'destroy'])->middleware('slider:admin')->name('slider.destroy');
+    Route::get('/slider/create', [SliderController::class, 'create'])->middleware('role:admin')->name('slider.create');
+    Route::post('/slider', [SliderController::class, 'store'])->middleware('role:admin')->name('slider.store');
+    Route::get('/slider/{slider}', [SliderController::class, 'edit'])->middleware('role:admin')->name('slider.edit');
+    Route::patch('/slider/{slider}', [SliderController::class, 'update'])->middleware('role:admin')->name('slider.update');
+    Route::delete('/slider/{slider}', [SliderController::class, 'destroy'])->middleware('role:admin')->name('slider.destroy');
 
     // Program
     Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
-    Route::get('/program/create', [ProgramController::class, 'create'])->middleware('program:admin')->name('program.create');
-    Route::post('/program', [ProgramController::class, 'store'])->middleware('program:admin')->name('program.store');
-    Route::get('/program/{program}', [ProgramController::class, 'edit'])->middleware('program:admin')->name('program.edit');
-    Route::patch('/program/{program}', [ProgramController::class, 'update'])->middleware('program:admin')->name('program.update');
-    Route::delete('/program/{program}', [ProgramController::class, 'destroy'])->middleware('program:admin')->name('program.destroy');
+    Route::get('/program/create', [ProgramController::class, 'create'])->middleware('role:admin')->name('program.create');
+    Route::post('/program', [ProgramController::class, 'store'])->middleware('role:admin')->name('program.store');
+    Route::get('/program/{program}', [ProgramController::class, 'edit'])->middleware('role:admin')->name('program.edit');
+    Route::patch('/program/{program}', [ProgramController::class, 'update'])->middleware('role:admin')->name('program.update');
+    Route::delete('/program/{program}', [ProgramController::class, 'destroy'])->middleware('role:admin')->name('program.destroy');
 
     // Program
     Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
-    Route::get('/program/create', [ProgramController::class, 'create'])->middleware('program:admin')->name('program.create');
-    Route::post('/program', [ProgramController::class, 'store'])->middleware('program:admin')->name('program.store');
-    Route::get('/program/{program}', [ProgramController::class, 'edit'])->middleware('program:admin')->name('program.edit');
-    Route::patch('/program/{program}', [ProgramController::class, 'update'])->middleware('program:admin')->name('program.update');
-    Route::delete('/program/{program}', [ProgramController::class, 'destroy'])->middleware('program:admin')->name('program.destroy');
+    Route::get('/program/create', [ProgramController::class, 'create'])->middleware('role:admin')->name('program.create');
+    Route::post('/program', [ProgramController::class, 'store'])->middleware('role:admin')->name('program.store');
+    Route::get('/program/{program}', [ProgramController::class, 'edit'])->middleware('role:admin')->name('program.edit');
+    Route::patch('/program/{program}', [ProgramController::class, 'update'])->middleware('role:admin')->name('program.update');
+    Route::delete('/program/{program}', [ProgramController::class, 'destroy'])->middleware('role:admin')->name('program.destroy');
 
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/user/create', [UserController::class, 'create'])->middleware('user:admin')->name('user.create');
-    Route::post('/user', [UserController::class, 'store'])->middleware('user:admin')->name('user.store');
-    Route::get('/user/{user}', [UserController::class, 'edit'])->middleware('user:admin')->name('user.edit');
-    Route::patch('/user/{user}', [UserController::class, 'update'])->middleware('user:admin')->name('user.update');
-    Route::delete('/user/{user}', [UserController::class, 'destroy'])->middleware('user:admin')->name('user.destroy');
+    Route::get('/user/create', [UserController::class, 'create'])->middleware('role:admin')->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->middleware('role:admin')->name('user.store');
+    Route::get('/user/{user}', [UserController::class, 'edit'])->middleware('role:admin')->name('user.edit');
+    Route::patch('/user/{user}', [UserController::class, 'update'])->middleware('role:admin')->name('user.update');
+    Route::delete('/user/{user}', [UserController::class, 'destroy'])->middleware('role:admin')->name('user.destroy');
 
 });
 

@@ -7,6 +7,13 @@
 
     <div class="max-w-xl mx-auto mt-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h1 class="font-bold text-2xl mb-6">Edit Role</h1>
+
+        @error('name')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('name') }}
+        </div>
+        @enderror
+
         <form action="{{route('role.update', $role->id)}}" method="POST">
             @csrf
             @method('PATCH')

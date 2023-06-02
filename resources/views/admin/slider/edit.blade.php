@@ -7,6 +7,25 @@
 
     <div class="max-w-xl mx-auto mt-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h1 class="font-bold text-2xl mb-6">Edit Slider</h1>
+
+        @error('caption')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('caption') }}
+        </div>
+        @enderror
+
+        @error('img')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('img') }}
+        </div>
+        @enderror
+
+        @error('status')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('status') }}
+        </div>
+        @enderror
+
         <form action="{{route('slider.update', $slider->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')

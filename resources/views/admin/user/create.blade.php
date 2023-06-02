@@ -7,6 +7,31 @@
 
     <div class="max-w-xl mx-auto mt-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h1 class="font-bold text-2xl mb-6">Tambah User</h1>
+
+        @error('role_id')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('role_id') }}
+        </div>
+        @enderror
+
+        @error('name')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('name') }}
+        </div>
+        @enderror
+
+        @error('password')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('password') }}
+        </div>
+        @enderror
+
+        @error('email')
+        <div class="text-red-400 font-semibold py-2">
+            {{ $errors->first('email') }}
+        </div>
+        @enderror
+
         <form action="{{route('user.store')}}" method="POST">
             @csrf
 
